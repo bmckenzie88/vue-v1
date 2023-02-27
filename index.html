@@ -13,7 +13,9 @@
     />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      :class="[`navbar-${theme}`,`bg-${theme}`, 'navbar', 'navbar-expand-lg']"
+    >
       <div class="container-fluid">
         <a class="navbar-brand" href="#">My Vue</a>
         <button
@@ -32,7 +34,7 @@
             <a
               v-for="(page, index) in pages"
               class="nav-link"
-              :class=""
+              :class="{active: activePage == index}"
               :key="index"
               aria-current="page"
               :href="page.link.url"
@@ -40,6 +42,11 @@
               @click.prevent="activePage = index"
               >{{page.link.text}}</a
             >
+            <form class="d-flex">
+              <button class="btn btn-primary" @click.prevent="changeTheme">
+                Toggle Navbar
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -53,6 +60,7 @@
         data() {
           return {
             activePage: 0,
+            theme: "light",
             pages: [
               {
                 link: { text: "Home", url: "index.html" },
@@ -71,6 +79,16 @@
               },
             ],
           };
+        },
+        methods: {
+          changeTheme() {
+            let theme = "light";
+            if (this.theme == "light") {
+              theme = "dark";
+            }
+
+            this.theme = theme;
+          },
         },
       }).mount("body");
     </script>
